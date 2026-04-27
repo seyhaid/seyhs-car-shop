@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seyha — លក់ឡានម៉ូតូទំនើបៗ</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ភ្ជាប់ CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ផ្ទៃខាងក្រោមមានចលនា -->
+    <div class="bg-atmosphere"></div>
+
+    <!-- ======================== របាប់រុករក ======================== -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+                <div class="navbar-name">SEYHA <span>CAR SHOP</span></div>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="#products">ឡាន</a></li>
+                <li><a href="#products">ម៉ូតូ</a></li>
+                <li><a href="#">អំពីយើង</a></li>
+                <li><a href="#">ទំនាក់ទំនង</a></li>
+            </ul>
+            <div class="navbar-actions">
+                <button class="cart-btn" onclick="toggleCart()" aria-label="បើកតុមិនគ">
+                    <i class="fas fa-bag-shopping"></i>
+                    <div class="cart-badge" id="cartBadge">0</div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main style="position:relative; z-index:1;">
+
+        <!-- ======================== Hero ======================== -->
+        <section class="hero">
+            <div class="hero-spotlight"></div>
+            <div class="hero-particles" id="heroParticles"></div>
+
+            <div class="hero-label">Premium Automotive Dealer</div>
+            <h1>
+                សូមស្វាគម៏មកកាន់<br>
+                <span class="highlight">សីហា-ឡានម៉ូតូទំនើប</span><br>
+                មានគ្រប់សេរី សម្រាប់បងប្អូនជាទីស្រាលាញ់
+            </h1>
+            <p class="hero-desc">
+                ស្វែងរករថយន្តទំនើបៗ BMW, Nissan GTR, Lamborghini រួមទាំងម៉ូតូពិសេសៗដូចជា BMW M1000RR ជាដើម
+            </p>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num" id="statModels">9</div>
+                    <div class="hero-stat-label">ម៉ូតែលរថយន្ត</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">12K+</div>
+                    <div class="hero-stat-label">អតិថិជនពេញចិត្ត</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">5Y</div>
+                    <div class="hero-stat-label">បទពិសោធន៍</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== ស្រាវជ្រាវ និងតម្រង ======================== -->
+        <section class="filter-section" id="products">
+            <div class="filter-controls" style="margin-bottom: 16px;">
+                <div class="search-wrap">
+                    <i class="fas fa-magnifying-glass"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="ស្រាវជ្រាវឡាន ឬម៉ូតូ..." oninput="applyFilters()">
+                </div>
+                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                    <option value="default">តម្រៀបលំនាំដើម</option>
+                    <option value="price-asc">តម្លៃ ៖ ទាម → ខ្ពស់</option>
+                    <option value="price-desc">តម្លៃ ៖ ខ្ពស់ → ទាម</option>
+                    <option value="name-asc">ឈ្មោះ ៖ A → Z</option>
+                </select>
+                <div class="price-range-wrap">
+                    <span class="price-range-label">តម្លៃអតិបរមា ៖</span>
+                    <input type="range" id="priceRange" min="10" max="500" value="500" oninput="applyFilters()">
+                    <span class="price-range-val" id="priceRangeVal">$500K</span>
+                </div>
+            </div>
+            <div class="filter-chips">
+                <button class="filter-chip active" data-cat="all" onclick="setCategory('all', this)">
+                    <i class="fas fa-border-all"></i> ទាំងអស់
+                </button>
+                <button class="filter-chip" data-cat="car" onclick="setCategory('car', this)">
+                    <i class="fas fa-car-side"></i> ឡាន
+                </button>
+                <button class="filter-chip" data-cat="motorcycle" onclick="setCategory('motorcycle', this)">
+                    <i class="fas fa-motorcycle"></i> ម៉ូតូ
+                </button>
+                <button class="filter-chip" data-cat="bmw" onclick="setCategory('bmw', this)">
+                    <i class="fas fa-circle-dot"></i> BMW
+                </button>
+                <button class="filter-chip" data-cat="super" onclick="setCategory('super', this)">
+                    <i class="fas fa-bolt"></i> Super Car
+                </button>
+            </div>
+        </section>
+
+        <!-- ======================== ផ្ទាំងផលិតផល ======================== -->
+        <section class="products-section">
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+    </main>
+
+    <!-- ======================== FAB — ប៊ូតុងបន្ថែមផលិតផលថ្មី ======================== -->
+    <button class="fab-add" onclick="openAddModal()" aria-label="បន្ថែមផលិតផលថ្មី">
+        <i class="fas fa-plus"></i>
+        <span class="fab-tooltip">បន្ថែមផលិតផលថ្មី</span>
+    </button>
+
+    <!-- ======================== Modal — បន្ថែមផលិតផលថ្មី ======================== -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-car-on"></i>បន្ថែមផលិតផលថ្មី
+                </div>
+                <button class="modal-close" onclick="closeAddModal()" aria-label="បិទ">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addForm" onsubmit="handleAddProduct(event)">
+                    <div class="form-grid">
+
+                        <!-- ឈ្មោះផលិតផល -->
+                        <div class="form-group full-width">
+                            <label class="form-label">ឈ្មោះផលិតផល *</label>
+                            <input type="text" class="form-input" id="f_name" placeholder="ឧ. Mercedes-AMG GT">
+                            <div class="form-error" id="err_name"></div>
+                        </div>
+
+                        <!-- ម៉ាក -->
+                        <div class="form-group">
+                            <label class="form-label">ម៉ាក (Brand) *</label>
+                            <input type="text" class="form-input" id="f_brand" placeholder="ឧ. Mercedes">
+                            <div class="form-error" id="err_brand"></div>
+                        </div>
+
+                        <!-- ប្រភេទ -->
+                        <div class="form-group">
+                            <label class="form-label">ប្រភេទ *</label>
+                            <select class="form-select" id="f_type">
+                                <option value="">— ជ្រើសរើស —</option>
+                                <option value="car">ឡាន</option>
+                                <option value="motorcycle">ម៉ូតូ</option>
+                            </select>
+                            <div class="form-error" id="err_type"></div>
+                        </div>
+
+                        <!-- តម្លៃ -->
+                        <div class="form-group">
+                            <label class="form-label">តម្លៃ ($K) *</label>
+                            <input type="number" class="form-input" id="f_price" placeholder="ឧ. 150" min="1" step="0.1">
+                            <div class="form-error" id="err_price"></div>
+                        </div>
+
+                        <!-- ល្បឿនអតិបរមា -->
+                        <div class="form-group">
+                            <label class="form-label">ល្បឿនអតិបរមា</label>
+                            <input type="text" class="form-input" id="f_speed" placeholder="ឧ. 320 គម/ម">
+                            <div class="form-error" id="err_speed"></div>
+                        </div>
+
+                        <!-- សមត្ថភាពម៉ាស៊ីន -->
+                        <div class="form-group">
+                            <label class="form-label">សមត្ថភាពម៉ាស៊ីន (HP)</label>
+                            <input type="text" class="form-input" id="f_hp" placeholder="ឧ. 580 HP">
+                        </div>
+
+                        <!-- ប្រភេទម៉ាស៊ីន -->
+                        <div class="form-group">
+                            <label class="form-label">ប្រភេទម៉ាស៊ីន</label>
+                            <input type="text" class="form-input" id="f_engine" placeholder="ឧ. 4.0L V8 Twin-Turbo">
+                        </div>
+
+                        <!-- តស័ដ្ឋានរូបភាព -->
+                        <div class="form-group">
+                            <label class="form-label">តម្លៃរូបភាព (URL)</label>
+                            <input type="text" class="form-input" id="f_image" placeholder="https://...">
+                            <div class="form-hint">ទុកទទេ = រូបភាពស្វ័យប្រវត្តិ</div>
+                        </div>
+
+                        <!-- ស្លាក (Tags) -->
+                        <div class="form-group full-width">
+                            <label class="form-label">ស្លាកពិសេស (Tags)</label>
+                            <div class="tag-checkboxes">
+                                <label class="tag-check">
+                                    <input type="checkbox" id="tag_bmw" value="bmw">
+                                    <span class="check-box"><i class="fas fa-check"></i></span>
+                                    BMW
+                                </label>
+                                <label class="tag-check">
+                                    <input type="checkbox" id="tag_super" value="super">
+                                    <span class="check-box"><i class="fas fa-check"></i></span>
+                                    Super Car
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ប៊ូតុងបញ្ជូន -->
+                    <div class="modal-actions">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-plus-circle"></i>
+                            បន្ថែមឥឡូវនេះ
+                        </button>
+                        <button type="button" class="btn-cancel" onclick="closeAddModal()">
+                            បោះបង់
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== ផ្ទាំងតុមិនគ ======================== -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <aside class="cart-panel" id="cartPanel" role="dialog" aria-label="តុមិនគ">
+        <div class="cart-header">
+            <div>
+                <div class="cart-header-title">YOUR CART</div>
+                <div class="cart-header-count" id="cartCount">0 មុខទំនិញ</div>
+            </div>
+            <button class="cart-close-btn" onclick="toggleCart()" aria-label="បិទ">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="cart-body" id="cartBody"></div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-row">
+                <span class="cart-row-label">រួមចំនួនសរុប</span>
+                <span class="cart-row-value" id="subtotalVal">$0</span>
+            </div>
+            <div class="cart-row">
+                <span class="cart-row-label">ការដឹកជញ្ជូន</span>
+                <span class="cart-row-value" style="color:var(--success);">ថ្លៃសេរី</span>
+            </div>
+            <div class="cart-total-row">
+                <span class="cart-total-label">សរុប</span>
+                <span class="cart-total-value" id="totalVal">$0</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">
+                <i class="fas fa-lock"></i> ទូទាត់ឥឡូវនេះ
+            </button>
+            <button class="btn-clear-cart" onclick="clearCart()">សម្អាតតុមិនគ</button>
+        </div>
+    </aside>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ======================== Footer ======================== -->
+    <footer class="site-footer">
+        <p>2025 <span>Seyha_CarShop</span>. រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+    </footer>
+
+    <!-- ======================== JavaScript ======================== -->
+    <script>
+        // ==========================================
+        // ទិន្នន័យផលិតផលដើម
+        // ==========================================
+        var products = [
+            {
+                id: 1, name: "BMW M4 Competition", brand: "BMW",
+                type: "car", tags: ["bmw"], price: 23,
+                topSpeed: "290 គម/ម", hp: "503 HP", engine: "3.0L Twin-Turbo I6",
+                image: "https://di-uploads-pod23.dealerinspire.com/bmwofowingsmills/uploads/2024/07/P90548593_highRes_the-all-new-bmw-m4-c-1.jpg", isNew: false
+            },
+            {
+                id: 2, name: "", brand: "Nissan",
+                type: "car", tags: ["super"], price: 212,
+                topSpeed: "315 គម/ម", hp: "600 HP", engine: "3.8L Twin-Turbo V6",
+                image: "https://images.pistonheads.com/nimg/43404/GT-R_NISMO.jpg", isNew: false
+            },
+            {
+                id: 3, name: "Lamborghini Huracan EVO", brand: "Lamborghini",
+                type: "car", tags: ["super"], price: 452,
+                topSpeed: "325 គម/ម", hp: "640 HP", engine: "5.2L V10 NA",
+                image: "https://www.rollsroycelongisland.com/imagetag/2702/14/l/New-2020-Lamborghini-Huracan-EVO-RWD-Spyder-1598913158.jpg", isNew: false
+            },
+            {
+                id: 4, name: "BMW M1000RR", brand: "BMW",
+                type: "motorcycle", tags: ["bmw"], price: 32,
+                topSpeed: "306 គម/ម", hp: "210 HP", engine: "999cc Inline-4",
+                image: "https://www.cyclenews.com/wp-content/uploads/2024/10/2025-bmw-m-1000rr-first-look-and-specs-5-scaled.jpg", isNew: false
+            },
+            {
+                id: 5, name: "BMW M5 CS", brand: "BMW",
+                type: "car", tags: ["bmw"], price: 142,
+                topSpeed: "305 គម/ម", hp: "635 HP", engine: "4.4L Twin-Turbo V8",
+                image: "https://www.carscoops.com/wp-content/uploads/2022/09/BMW-M5-CS-1a.jpg", isNew: false
+            },
+            {
+                id: 6, name: "Ducati Panigale V4 S", brand: "Ducati",
+                type: "motorcycle", tags: [], price: 28,
+                topSpeed: "300 គម/ម", hp: "214 HP", engine: "1103cc V4",
+                image: "https://www.totalmotorcycle.com/wp-content/uploads/2018/11/2019-Ducati-Panigale-V4S1.jpg", isNew: false
+            },
+            {
+                id: 7, name: "Lamborghini Aventador SVJ", brand: "Lamborghini",
+                type: "car", tags: ["super"], price: 498,
+                topSpeed: "350 គម/ម", hp: "770 HP", engine: "6.5L V12 NA",
+                image: "https://cdn.dealeraccelerate.com/pinnacle/1/433/25424/1920x1440/2021-lamborghini-aventador-svj-roadster", isNew: false
+            },
+            {
+                id: 8, name: "Kawasaki Ninja H2R", brand: "Kawasaki",
+                type: "motorcycle", tags: [], price: 56,
+                topSpeed: "400 គម/ម", hp: "310 HP", engine: "998cc Supercharged",
+                image: "https://antre-du-motard.com/cdn/shop/articles/kawasaki_h2r_1200x1200.webp?v=1725873104", isNew: false
+            },
+            {
+                id: 9, name: "BMW X6 M Competition", brand: "BMW",
+                type: "car", tags: ["bmw"], price: 112,
+                topSpeed: "285 គម/ម", hp: "617 HP", engine: "4.4L Twin-Turbo V8",
+                image: "https://james-henderson.com/wp-content/uploads/2024/08/BMW-X6M-Competition-14.jpg", isNew: false
+            },
+            /*add*/
+
+             {
+                id: 8, name: "Kawasaki Ninja H2", brand: "Kawasaki",
+                type: "motorcycle", tags: [], price: 56,
+                topSpeed: "400 គម/ម", hp: "399 HP", engine: "1000cc Supercharged",
+                image: "https://global-fs.webike-cdn.net/@japan/magazine/wp-content/uploads/2022/08/046-01_tokudai.jpg", isNew: false
+            },
+             {
+                id: 8, name: "Kawasaki ZX", brand: "ZX10",
+                type: "motorcycle", tags: [], price: 16,
+                topSpeed: "400 គម/ម", hp: "310 HP", engine: "998cc",
+                image: "https://th.bing.com/th/id/OIP.tvm8p6I3te_bmgYmYuBi7QHaFL?w=267&h=187&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3", isNew: false
+            },
+             {
+                id: 8, name: "Yamaha", brand: "yamaha R1M",
+                type: "motorcycle", tags: [], price: 14,
+                topSpeed: "400 គម/ម", hp: "310 HP", engine: "998cc ",
+                image: "https://th.bing.com/th/id/OIP.Z19DZ8d76-V43klrdjUg3wHaE8?w=276&h=184&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3", isNew: false
+            },
+        ];
+
+        // លេខ ID បន្ទាប់សម្រាប់ផលិតផលថ្មី
+        var nextId = 10;
+
+        // ==========================================
+        // ស្ថានភាពតម្រង
+        // ==========================================
+        var cart = [];
+        var activeCategory = "all";
+        var searchQuery = "";
+        var maxPrice = 500;
+        var sortBy = "default";
+
+        // ==========================================
+        // បង្កើតផ្កាយ Hero
+        // ==========================================
+        (function() {
+            var c = document.getElementById("heroParticles");
+            for (var i = 0; i < 35; i++) {
+                var p = document.createElement("div");
+                p.className = "hero-particle";
+                p.style.left = Math.random() * 100 + "%";
+                p.style.bottom = "-5%";
+                p.style.animationDuration = (10 + Math.random() * 16) + "s";
+                p.style.animationDelay = (Math.random() * 12) + "s";
+                var s = 1.5 + Math.random() * 2.5;
+                p.style.width = s + "px";
+                p.style.height = s + "px";
+                c.appendChild(p);
+            }
+        })();
+
+        // ==========================================
+        // បង្ហាញផលិតផល
+        // ==========================================
+        function renderProducts() {
+            var grid = document.getElementById("productGrid");
+            var typeLabels = { car: "ឡាន", motorcycle: "ម៉ូតូ" };
+
+            // តម្រង
+            var filtered = products.filter(function(p) {
+                var catMatch = false;
+                if (activeCategory === "all") catMatch = true;
+                else if (activeCategory === "bmw") catMatch = p.tags.indexOf("bmw") !== -1;
+                else if (activeCategory === "super") catMatch = p.tags.indexOf("super") !== -1;
+                else catMatch = p.type === activeCategory;
+
+                var searchMatch =
+                    p.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 ||
+                    p.brand.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
+
+                var priceMatch = p.price <= maxPrice;
+                return catMatch && searchMatch && priceMatch;
+            });
+
+            // តម្រៀប
+            if (sortBy === "price-asc") filtered.sort(function(a, b) { return a.price - b.price; });
+            else if (sortBy === "price-desc") filtered.sort(function(a, b) { return b.price - a.price; });
+            else if (sortBy === "name-asc") filtered.sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+            // គ្មានលទ្ធផល
+            if (filtered.length === 0) {
+                grid.innerHTML =
+                    '<div class="empty-state">' +
+                        '<i class="fas fa-car-burst"></i>' +
+                        '<p>មិនមានរថយន្តដែលត្រូវគ្នា</p>' +
+                        '<small>សូមព្យាយាមស្រាវជ្រាវដោយពាក្យផ្សេង ឬផ្លាស់ប្តូរតម្រង</small>' +
+                    '</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(function(p, idx) {
+                var inCart = cart.find(function(c) { return c.id === p.id; });
+                var newTag = p.isNew ? '<div class="new-tag">ថ្មី</div>' : '';
+                return (
+                    '<div class="product-card" style="transition-delay:' + (idx * 70) + 'ms">' +
+                        '<div class="img-container">' +
+                            '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' +
+                            '<div class="type-badge">' + (typeLabels[p.type] || p.type) + '</div>' +
+                            '<div class="speed-badge"><i class="fas fa-gauge-high"></i> ' + p.topSpeed + '</div>' +
+                            newTag +
+                        '</div>' +
+                        '<div class="card-body">' +
+                            '<div class="brand-tag">' + p.brand + '</div>' +
+                            '<h3 class="card-title">' + p.name + '</h3>' +
+                            '<div class="card-specs">' +
+                                '<div class="spec-item"><i class="fas fa-horse-head"></i> ' + p.hp + '</div>' +
+                                '<div class="spec-item"><i class="fas fa-gear"></i> ' + p.engine + '</div>' +
+                            '</div>' +
+                            '<div class="card-footer">' +
+                                '<div class="price">$' + p.price + 'K <small>USD</small></div>' +
+                                '<button class="btn-add-cart' + (inCart ? ' added' : '') + '" onclick="addToCart(' + p.id + ')">' +
+                                    '<i class="fas ' + (inCart ? 'fa-check' : 'fa-bag-shopping') + '"></i> ' +
+                                    (inCart ? 'បានដាក់' : 'ដាក់ចូលតុ') +
+                                '</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }).join("");
+
+            // ចាប់ផ្តើមចលនា
+            requestAnimationFrame(function() {
+                var cards = grid.querySelectorAll(".product-card");
+                cards.forEach(function(card, i) {
+                    setTimeout(function() { card.classList.add("visible"); }, i * 70);
+                });
+            });
+
+            // អ្នកថ្មីបន្ថែមចំនួនម៉ូតែល
+            document.getElementById("statModels").textContent = products.length;
+        }
+
+        // ==========================================
+        // ស្រាវជ្រាវ និងតម្រង
+        // ==========================================
+        function applyFilters() {
+            searchQuery = document.getElementById("searchInput").value;
+            maxPrice = parseInt(document.getElementById("priceRange").value);
+            sortBy = document.getElementById("sortSelect").value;
+            document.getElementById("priceRangeVal").textContent = "$" + maxPrice + "K";
+            renderProducts();
+        }
+
+        function setCategory(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll(".filter-chip").forEach(function(c) { c.classList.remove("active"); });
+            btn.classList.add("active");
+            renderProducts();
+        }
+
+        // ==========================================
+        // Modal — បើក/បិទ / បន្ថែមផលិតផលថ្មី
+        // ==========================================
+        function openAddModal() {
+            document.getElementById("addModal").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeAddModal() {
+            document.getElementById("addModal").classList.remove("open");
+            document.body.style.overflow = "";
+            resetForm();
+        }
+
+        // ចុចក្រៅ Modal ដើម្បីបិទ
+        document.getElementById("addModal").addEventListener("click", function(e) {
+            if (e.target === this) closeAddModal();
+        });
+
+        // សម្អាតទម្រងោះ
+        function resetForm() {
+            document.getElementById("addForm").reset();
+            var errors = document.querySelectorAll(".form-error");
+            for (var i = 0; i < errors.length; i++) errors[i].textContent = "";
+        }
+
+        // ==========================================
+        // ធ្វើបច្ចុប្បន្នភាពទម្រងោះបន្ថែមផលិតផល
+        // ==========================================
+        function handleAddProduct(e) {
+            e.preventDefault();
+
+            // ទាញទិន្នន័យពីទម្រងោះ
+            var name = document.getElementById("f_name").value.trim();
+            var brand = document.getElementById("f_brand").value.trim();
+            var type = document.getElementById("f_type").value;
+            var price = document.getElementById("f_price").value;
+            var speed = document.getElementById("f_speed").value.trim();
+            var hp = document.getElementById("f_hp").value.trim();
+            var engine = document.getElementById("f_engine").value.trim();
+            var image = document.getElementById("f_image").value.trim();
+            var tagBmw = document.getElementById("tag_bmw").checked;
+            var tagSuper = document.getElementById("tag_super").checked;
+
+            // សម្អាតប័ណ្ណុកមុខ
+            var errors = document.querySelectorAll(".form-error");
+            for (var i = 0; i < errors.length; i++) errors[i].textContent = "";
+
+            // ធ្វើបញ្ជាក់ទិន្នន័យចាំបាច់
+            var hasError = false;
+
+            if (!name) {
+                document.getElementById("err_name").textContent = "សូមបញ្ចូលឈ្មោះផលិតផល";
+                hasError = true;
+            }
+            if (!brand) {
+                document.getElementById("err_brand").textContent = "សូមបញ្ចូលម៉ាក";
+                hasError = true;
+            }
+            if (!type) {
+                document.getElementById("err_type").textContent = "សូមជ្រើសរើសប្រភេទ";
+                hasError = true;
+            }
+            if (!price || parseFloat(price) <= 0) {
+                document.getElementById("err_price").textContent = "សូមបញ្ចូលតម្លៃត្រឹមត្រូវ";
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // បង្កើតស្លាក
+            var tags = [];
+            if (tagBmw) tags.push("bmw");
+            if (tagSuper) tags.push("super");
+
+            // បង្កើតផលិតផលថ្មី
+            var newProduct = {
+                id: nextId++,
+                name: name,
+                brand: brand,
+                type: type,
+                tags: tags,
+                price: parseFloat(price),
+                topSpeed: speed || "N/A",
+                hp: hp || "N/A",
+                engine: engine || "N/A",
+                image: image || "https://picsum.photos/seed/new" + Date.now() + "/640/400.jpg",
+                isNew: true
+            };
+
+            // បន្ថែមចូលចំណុចដើមនៃលេខកូដ
+            products.unshift(newProduct);
+
+            // បិទ Modal និងធ្វើបច្ចុប្បន្នភាពផ្ទាំង
+            closeAddModal();
+            applyFilters();
+
+            showToast('បានបន្ថែម "' + name + '" ដោយជោគជ័យ!', 'fa-circle-plus', 'var(--success)');
+
+            // រំកិលទៅកាន់ផ្នែកផលិតផល
+            setTimeout(function() {
+                document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+            }, 300);
+        }
+
+        // ==========================================
+        // តុមិនគ — Logic
+        // ==========================================
+        function addToCart(id) {
+            var product = products.find(function(p) { return p.id === id; });
+            if (!product) return;
+
+            var existing = cart.find(function(c) { return c.id === id; });
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty: 1 });
+            }
+
+            refreshCart();
+            renderProducts();
+            showToast('បានដាក់ "' + product.name + '" ចូលតុមិនគ', 'fa-circle-check', 'var(--success)');
+        }
+
+        function removeItem(id) {
+            var item = cart.find(function(c) { return c.id === id; });
+            cart = cart.filter(function(c) { return c.id !== id; });
+            refreshCart();
+            renderProducts();
+            if (item) showToast('បានដក "' + item.name + '"', 'fa-trash-can', 'var(--danger)');
+        }
+
+        function changeQty(id, delta) {
+            var item = cart.find(function(c) { return c.id === id; });
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) { removeItem(id); return; }
+            refreshCart();
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            cart = [];
+            refreshCart();
+            renderProducts();
+            showToast('តុមិនគត្រូវបានសម្អាត', 'fa-broom', 'var(--fg-dim)');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            var total = cart.reduce(function(s, c) { return s + c.price * c.qty; }, 0);
+            showToast('ទូទាត់ជោគជ័យ! សរុប $' + total + 'K', 'fa-circle-check', 'var(--success)');
+            cart = [];
+            refreshCart();
+            renderProducts();
+            setTimeout(function() { toggleCart(); }, 900);
+        }
+
+        function refreshCart() {
+            var badge = document.getElementById("cartBadge");
+            var countEl = document.getElementById("cartCount");
+            var bodyEl = document.getElementById("cartBody");
+            var footerEl = document.getElementById("cartFooter");
+            var subtotalEl = document.getElementById("subtotalVal");
+            var totalEl = document.getElementById("totalVal");
+
+            var totalQty = cart.reduce(function(s, c) { return s + c.qty; }, 0);
+            var totalPrice = cart.reduce(function(s, c) { return s + c.price * c.qty; }, 0);
+
+            if (totalQty > 0) {
+                badge.classList.add("show");
+                badge.textContent = totalQty > 99 ? "99+" : totalQty;
+            } else {
+                badge.classList.remove("show");
+            }
+
+            countEl.textContent = totalQty + " មុខទំនិញ";
+
+            if (cart.length === 0) {
+                bodyEl.innerHTML =
+                    '<div class="cart-empty">' +
+                        '<i class="fas fa-bag-shopping"></i>' +
+                        '<p style="font-weight:600;">តុមិនគទទេ</p>' +
+                        '<small style="font-size:0.82rem; margin-top:6px; display:block; color:var(--fg-dim);">ចុច "ដាក់ចូលតុ" ដើម្បីចាប់ផ្តើម</small>' +
+                    '</div>';
+                footerEl.classList.remove("show");
+                return;
+            }
+
+            footerEl.classList.add("show");
+            subtotalEl.textContent = "$" + totalPrice + "K";
+            totalEl.textContent = "$" + totalPrice + "K";
+
+            bodyEl.innerHTML = cart.map(function(item) {
+                return (
+                    '<div class="cart-item">' +
+                        '<img src="' + item.image + '" alt="' + item.name + '">' +
+                        '<div class="cart-item-info">' +
+                            '<div class="cart-item-name">' + item.name + '</div>' +
+                            '<div class="cart-item-price">$' + item.price + 'K</div>' +
+                            '<div class="cart-item-controls">' +
+                                '<button class="qty-btn" onclick="changeQty(' + item.id + ', -1)" aria-label="បន្ថយ"><i class="fas fa-minus"></i></button>' +
+                                '<span class="cart-item-qty">' + item.qty + '</span>' +
+                                '<button class="qty-btn" onclick="changeQty(' + item.id + ', 1)" aria-label="បន្ថែម"><i class="fas fa-plus"></i></button>' +
+                                '<span class="cart-item-subtotal">$' + (item.price * item.qty) + 'K</span>' +
+                                '<button class="cart-item-remove" onclick="removeItem(' + item.id + ')" aria-label="ដក"><i class="fas fa-trash-can"></i></button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }).join("");
+        }
+
+        // ==========================================
+        // បើក/បិទតុមិនគ
+        // ==========================================
+        function toggleCart() {
+            var panel = document.getElementById("cartPanel");
+            var overlay = document.getElementById("cartOverlay");
+            var isOpen = panel.classList.contains("open");
+
+            if (isOpen) {
+                panel.classList.remove("open");
+                overlay.classList.remove("open");
+                document.body.style.overflow = "";
+            } else {
+                panel.classList.remove("open");
+                overlay.classList.remove("open");
+                document.body.style.overflow = "hidden";
+                // រក្សាទុកសិនបន្ទាប់មកបើកវិញដើម្បីជៀស inc/desc conflict
+                requestAnimationFrame(function() {
+                    panel.classList.add("open");
+                    overlay.classList.add("open");
+                });
+            }
+        }
+
+        // ==========================================
+        // Toast
+        // ==========================================
+        function showToast(msg, icon, color) {
+            var container = document.getElementById("toastContainer");
+            var toast = document.createElement("div");
+            toast.className = "toast";
+            toast.style.borderLeftColor = color || "var(--accent)";
+            toast.innerHTML = '<i class="fas ' + (icon || "fa-circle-info") + '" style="color:' + (color || "var(--accent)") + '; font-size:1rem;"></i> ' + msg;
+            container.appendChild(toast);
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 2800);
+        }
+
+        // ==========================================
+        // Keyboard shortcuts
+        // ==========================================
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                if (document.getElementById("addModal").classList.contains("open")) {
+                    closeAddModal();
+                } else if (document.getElementById("cartPanel").classList.contains("open")) {
+                    toggleCart();
+                }
+            }
+        });
+
+        // ==========================================
+        // ចាប់ផ្តើមគេហទំព័រ
+        // ==========================================
+        renderProducts();
+        refreshCart();
+    </script>
+</body>
+</html>
