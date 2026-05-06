@@ -415,8 +415,8 @@
             var btn = document.getElementById("detailCartBtn");
             var btnText = document.getElementById("detailCartBtnText");
             var inCart = cart.find(function(c) { return c.id === currentDetailId; });
-            if (inCart) { btn.classList.add("added"); btnText.textContent = "បានដាក់ចូលតុរួច"; btn.querySelector("i").className = "fas fa-check"; }
-            else { btn.classList.remove("added"); btnText.textContent = "ដាក់ចូលតុមិនគ"; btn.querySelector("i").className = "fas fa-bag-shopping"; }
+            if (inCart) { btn.classList.add("added"); btnText.textContent = "បានទិញរួចរាល់"; btn.querySelector("i").className = "fas fa-check"; }
+            else { btn.classList.remove("added"); btnText.textContent = "ចុកដើម្បីទិញ"; btn.querySelector("i").className = "fas fa-bag-shopping"; }
         }
         function detailAddToCart() { if (currentDetailId === null) return; addToCart(currentDetailId); updateDetailCartBtn(); }
 
@@ -474,7 +474,7 @@
             if (existing) { existing.qty += 1; }
             else { cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty: 1 }); }
             refreshCart(); renderProducts();
-            showToast('បានដាក់ "' + product.name + '" ចូលតុមិនគ', 'fa-circle-check', 'var(--success)');
+            showToast('បានទិញ "' + product.name + '" ចូលប្រអប់គិតថ្លៃ', 'fa-circle-check', 'var(--success)');
         }
         function removeItem(id) {
             var item = cart.find(function(c) { return c.id === id; });
